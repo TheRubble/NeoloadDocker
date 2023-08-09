@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  controller:
+    image: neotys/neoload-controller
+    environment:
+      - MODE=Managed
+      - NEOLOADWEB_TOKEN=${NEOLOADWEB_TOKEN}
+
+  load-generator:
+    image: neotys/neoload-loadgenerator
+    ports:
+      - 7100:7100
+    depends_on:
+      - controller
+    environment:
+      - LG_PORT=7100
+      - NEOLOADWEB_TOKEN=${NEOLOADWEB_TOKEN}
+      - ZONE=${NEOLOADWEB_ZONE}
+      - LG_HOST=load-generator
